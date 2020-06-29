@@ -4,41 +4,36 @@ import random
 
 pygame.init()
 
-######## Variáveis Globais ########
-tela_largura = 800
-tela_altura = 600
-gameDisplay = pygame.display.set_mode((tela_largura, tela_altura))
+screen_width = 800
+screen_height = 600
+game_display = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Iron Man Marcão")
-icone = pygame.image.load("assets/ironIcon.png")
-pygame.display.set_icon(icone)
-explosao_sound = pygame.mixer.Sound("assets/explosao.wav")
+icon = pygame.image.load("assets/ironIcon.png")
+pygame.display.set_icon(icon)
+explosion_sound = pygame.mixer.Sound("assets/explosao.wav")
 missile_sound = pygame.mixer.Sound("assets/missile.wav")
 
 
-
 clock = pygame.time.Clock()
-# RGB
-black = (0, 0, 0)
-white = (255, 255, 255)
-ironMan = pygame.image.load("assets/ironLarge.png")
-iron_largura = 120
-iron_altura = 100
+iron_man = pygame.image.load("assets/ironLarge.png")
+iron_width = 120
+iron_height = 100
 
 missile = pygame.image.load("assets/missile.png")
-missile_largura = 50
-missile_altura = 250
+missile_width = 50
+missile_height = 250
 
-fundo = pygame.image.load("assets/sky.png")
+background = pygame.image.load("assets/sky.png")
 
-######## Funções Globais ########
-
-
-def mostrarIron(x, y):
-    gameDisplay.blit(ironMan, (x, y))
+white = (0, 0, 0)
 
 
-def mostraMissile(x, y):
-    gameDisplay.blit(missile, (x, y))
+def showIron(x, y):
+    game_display.blit(iron_man, (x, y))
+
+
+def showMissile(x, y):
+    game_display.blit(missile, (x, y))
 
 
 def text_objects(text, font):
@@ -46,11 +41,11 @@ def text_objects(text, font):
     return textSurface, textSurface.get_rect()
 
 
-def message_display(text):
-    largeText = pygame.font.Font("freesansbold.ttf", 115)
-    TextSurf, TextRect = text_objects(text, largeText)
-    TextRect.center = (tela_largura/2, tela_altura/2)
-    gameDisplay.blit(TextSurf, TextRect)
+def messageDisplay(text):
+    large_text = pygame.font.Font("freesansbold.ttf", 115)
+    TextSurf, TextRect = text_objects(text, large_text)
+    TextRect.center = (screen_width/2, screen_height/2)
+    game_display.blit(TextSurf, TextRect)
     pygame.display.update()
     time.sleep(3)
     game_loop()
@@ -58,74 +53,67 @@ def message_display(text):
 
 def dead():
     pygame.mixer.music.stop()
-    pygame.mixer.Sound.play(explosao_sound)
-    message_display("Você Morreu")
+    pygame.mixer.Sound.play(explosion_sound)
+    messageDisplay("Você Morreu")
 
 
-def escrePlacar(contador):
+def showCount(contador):
     font = pygame.font.SysFont(None, 45)
-    text = font.render("Desvios: "+str(contador), True, white)
-    gameDisplay.blit(text, (10, 30))
-
-# Looping do Jogo
+    text = font.render("dodge: "+str(contador), True, white)
+    game_display.blit(text, (10, 30))
 
 
 def game_loop():
     pygame.mixer.music.load("assets/ironsound.mp3")
     pygame.mixer.music.play(-1)
 
-    iron_posicaoX = 350
-    iron_posicaoY = 450
-    movimentoX = 0
-    missile_spped = 7
-    missile_posicaoX = random.randrange(0, tela_largura)
-    missile_posicaoY = -250
-    desvios = 0
+    iron_position_x = 350
+    iron_position_y = 450
+    move_x = 0
+    missile_speed = 7
+    missile_position_x = random.randrange(0, screen_width)
+    missile_position_y = -250
+    dodge = 0
 
     while True:
-        # inicio - Interação do usuário
-        # event.get do pygame, devolve uma lista de eventos da janela
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                 pygame.quit()
-                # fecha tudo!
                 quit()
-            if evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_LEFT:
-                    movimentoX = -10
-                elif evento.key == pygame.K_RIGHT:
-                    movimentoX = 10
-            if evento.type == pygame.KEYUP:
-                if evento.key == pygame.K_LEFT or evento.key == pygame.K_RIGHT:
-                    movimentoX = 0
-        iron_posicaoX = iron_posicaoX + movimentoX
-        # fim - Interação do usuário
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    move_x = -10
+                elif event.key == pygame.K_RIGHT:
+                    move_x = 10
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    move_x = 0
+        iron_position_x = iron_position_x + move_x
 
-        # Alterando a cor de fundo da tela
-        gameDisplay.fill(white)
-        gameDisplay.blit(fundo, (0, 0))
+        game_display.fill(white)
+        game_display.blit(background, (0, 0))
 
-        mostrarIron(iron_posicaoX, iron_posicaoY)
+        showIron(iron_position_x, iron_position_y)
 
-        mostraMissile(missile_posicaoX, missile_posicaoY)
-        missile_posicaoY = missile_posicaoY + missile_spped
+        showMissile(missile_position_x, missile_position_y)
+        missile_position_y = missile_position_y + missile_speed
 
-        if missile_posicaoY > tela_altura:
+        if missile_position_y > screen_height:
             pygame.mixer.Sound.play(missile_sound)
-            missile_posicaoY = 0 - missile_altura
-            missile_spped += 1
-            missile_posicaoX = random.randrange(0, tela_largura)
-            desvios = desvios + 1
+            missile_position_y = 0 - missile_height
+            missile_speed += 1
+            missile_position_x = random.randrange(0, screen_width)
+            dodge = dodge + 1
 
-        escrePlacar(desvios)
+        showCount(dodge)
 
-        if iron_posicaoX > tela_largura - iron_largura:
-            iron_posicaoX = tela_largura - iron_largura
-        elif iron_posicaoX < 0:
-            iron_posicaoX = 0
+        if iron_position_x > screen_width - iron_width:
+            iron_position_x = screen_width - iron_width
+        elif iron_position_x < 0:
+            iron_position_x = 0
 
-        if iron_posicaoY+50 < missile_posicaoY + missile_altura:
-            if iron_posicaoX < missile_posicaoX and iron_posicaoX + iron_largura > missile_posicaoX or missile_posicaoX+missile_largura > iron_posicaoX and missile_posicaoX + missile_largura < iron_posicaoX + iron_largura:
+        if iron_position_y+50 < missile_position_y + missile_height:
+            if iron_position_x < missile_position_x and iron_position_x + iron_width > missile_position_x or missile_position_x+missile_width > iron_position_x and missile_position_x + missile_width < iron_position_x + iron_width:
                 dead()
 
         pygame.display.update()
