@@ -1,6 +1,10 @@
 import pygame
 import time
 import random
+from functions.userFunctions import userInfos
+
+userInfos()
+
 
 pygame.init()
 
