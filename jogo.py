@@ -1,9 +1,9 @@
 import pygame
 import time
 import random
-# from functions.userFunctions import userInfos
+from functions.userFunctions import userInfos
 
-# userInfos()
+userInfos()
 
 
 pygame.init()
@@ -15,7 +15,8 @@ pygame.display.set_caption("ship Man Marcão")
 icon = pygame.image.load("assets/ironIcon.png")
 pygame.display.set_icon(icon)
 explosion_sound = pygame.mixer.Sound("assets/explosao.wav")
-laser_sound = pygame.mixer.Sound("assets/missile.wav")
+
+laser_sound = pygame.mixer.Sound("assets/laser.wav")
 
 
 clock = pygame.time.Clock()
@@ -61,9 +62,9 @@ def dead():
     messageDisplay("Você Morreu")
 
 
-def showCount(contador):
+def showCount(count):
     font = pygame.font.SysFont(None, 45)
-    text = font.render("dodge: "+str(contador), True, white)
+    text = font.render("Desvios: "+str(count), True, white)
     game_display.blit(text, (10, 30))
 
 
