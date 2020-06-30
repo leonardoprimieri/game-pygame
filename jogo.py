@@ -1,9 +1,9 @@
 import pygame
 import time
 import random
-from functions.userFunctions import userInfos
+# from functions.userFunctions import userInfos
 
-userInfos()
+# userInfos()
 
 
 pygame.init()
@@ -11,33 +11,33 @@ pygame.init()
 screen_width = 800
 screen_height = 600
 game_display = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Iron Man Marcão")
+pygame.display.set_caption("ship Man Marcão")
 icon = pygame.image.load("assets/ironIcon.png")
 pygame.display.set_icon(icon)
 explosion_sound = pygame.mixer.Sound("assets/explosao.wav")
-missile_sound = pygame.mixer.Sound("assets/missile.wav")
+laser_sound = pygame.mixer.Sound("assets/missile.wav")
 
 
 clock = pygame.time.Clock()
-iron_man = pygame.image.load("assets/ironLarge.png")
-iron_width = 120
-iron_height = 100
+ship = pygame.image.load("assets/mandalorianShip.png")
+ship_width = 120
+ship_height = 100
 
-missile = pygame.image.load("assets/missile.png")
-missile_width = 50
-missile_height = 250
+laser = pygame.image.load("assets/laser.png")
+laser_width = 50
+laser_height = 250
 
-background = pygame.image.load("assets/sky.png")
+background = pygame.image.load("assets/space.jpg")
 
 white = (0, 0, 0)
 
 
-def showIron(x, y):
-    game_display.blit(iron_man, (x, y))
+def showShip(x, y):
+    game_display.blit(ship, (x, y))
 
 
-def showMissile(x, y):
-    game_display.blit(missile, (x, y))
+def showlaser(x, y):
+    game_display.blit(laser, (x, y))
 
 
 def text_objects(text, font):
@@ -71,12 +71,12 @@ def game_loop():
     pygame.mixer.music.load("assets/ironsound.mp3")
     pygame.mixer.music.play(-1)
 
-    iron_position_x = 350
-    iron_position_y = 450
+    ship_position_x = 600
+    ship_position_y = 200
     move_y = 0
-    missile_speed = 7
-    missile_position_x = random.randrange(0, screen_width)
-    missile_position_y = -250
+    laser_speed = 5
+    laser_position_y = random.randrange(0, screen_height)
+    laser_position_x = -250
     dodge = 0
 
     while True:
@@ -92,32 +92,32 @@ def game_loop():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     move_y = 0
-        iron_position_y = iron_position_y + move_y
+        ship_position_y = ship_position_y + move_y
 
         game_display.fill(white)
         game_display.blit(background, (0, 0))
 
-        showIron(iron_position_x, iron_position_y)
+        showShip(ship_position_x, ship_position_y)
 
-        showMissile(missile_position_x, missile_position_y)
-        missile_position_y = missile_position_y + missile_speed
+        showlaser(laser_position_x, laser_position_y)
+        laser_position_x = laser_position_x + laser_speed
 
-        if missile_position_y > screen_height:
-            pygame.mixer.Sound.play(missile_sound)
-            missile_position_y = 0 - missile_height
-            missile_speed += 1
-            missile_position_x = random.randrange(0, screen_width)
+        if laser_position_x > screen_width:
+            pygame.mixer.Sound.play(laser_sound)
+            laser_position_x = 0 - laser_width
+            laser_speed += 1
+            laser_position_y = random.randrange(0, screen_width)
             dodge = dodge + 1
 
         showCount(dodge)
 
-        if iron_position_x > screen_width - iron_width:
-            iron_position_x = screen_width - iron_width
-        elif iron_position_x < 0:
-            iron_position_x = 0
+        if ship_position_y > screen_height - ship_height:
+            ship_position_y = 500
+        elif ship_position_y < 0:
+            ship_position_y = 0
 
-        if iron_position_y+50 < missile_position_y + missile_height:
-            if iron_position_x < missile_position_x and iron_position_x + iron_width > missile_position_x or missile_position_x+missile_width > iron_position_x and missile_position_x + missile_width < iron_position_x + iron_width:
+        if ship_position_x + 130 < laser_position_x + laser_height:
+            if ship_position_y < laser_position_y and ship_position_y + ship_width > laser_position_y or laser_position_y + laser_width > ship_position_y and laser_position_y + laser_width < ship_position_y + ship_width:
                 dead()
 
         pygame.display.update()
