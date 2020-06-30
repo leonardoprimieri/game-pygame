@@ -11,8 +11,8 @@ pygame.init()
 screen_width = 800
 screen_height = 600
 game_display = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("ship Man Marcão")
-icon = pygame.image.load("assets/ironIcon.png")
+pygame.display.set_caption("Mandalorian Ship!")
+icon = pygame.image.load("assets/icon.png")
 pygame.display.set_icon(icon)
 explosion_sound = pygame.mixer.Sound("assets/explosao.wav")
 
