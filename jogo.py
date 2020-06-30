@@ -73,7 +73,7 @@ def game_loop():
 
     iron_position_x = 350
     iron_position_y = 450
-    move_x = 0
+    move_y = 0
     missile_speed = 7
     missile_position_x = random.randrange(0, screen_width)
     missile_position_y = -250
@@ -85,14 +85,14 @@ def game_loop():
                 pygame.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    move_x = -10
-                elif event.key == pygame.K_RIGHT:
-                    move_x = 10
+                if event.key == pygame.K_UP:
+                    move_y = -10
+                elif event.key == pygame.K_DOWN:
+                    move_y = 10
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    move_x = 0
-        iron_position_x = iron_position_x + move_x
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    move_y = 0
+        iron_position_y = iron_position_y + move_y
 
         game_display.fill(white)
         game_display.blit(background, (0, 0))
