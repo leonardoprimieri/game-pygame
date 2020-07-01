@@ -4,7 +4,7 @@ executables = [cx_Freeze.Executable(
     script="jogo.py", icon="assets/icon.ico")]
 cx_Freeze.setup(
     name="Mandalorian Adventure",
-    options={"build_exe": {"packages": ["pygame"], "include_files": ["assets"]
+    options={"build_exe": {"packages": ["pygame"], "include_files": ["assets", "functions"]
                            }},
     executables=executables
 )
